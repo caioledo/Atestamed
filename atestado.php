@@ -31,9 +31,16 @@ require_once ('./internal/dao/MedicoDAO.class.php');
                 $atestado->setPacNome($_POST['pac_nome']);
                 $atestado->setPacId($_POST['pac_id']);
 
+                if (isset($_POST['datahora'])) {
+                    $atestado->setDatahora($_POST['datahora']);
+                } else {
+                    $atestado->setDatahora(date('d/m/Y'));
+                }
+
                 if (isset($_POST['pac_endereco'])) {
                     $atestado->setPacEndereco($_POST['pac_endereco']);
                 }
+
                 if (isset($_POST['pac_email'])) {
                     $atestado->setPacEmail($_POST['pac_email']);
                 }
@@ -41,6 +48,13 @@ require_once ('./internal/dao/MedicoDAO.class.php');
                 if (isset($_POST['pac_telefone'])) {
                     $atestado->setPacTelefone($_POST['pac_telefone']);
                 }
+
+
+                if (isset($_POST['periodo_inicio']) && isset($_POST['periodo_fim'])) {
+                    $atestado->setPeriodoInicio($_POST['periodo_inicio']);
+                    $atestado->setPeriodoFim($_POST['periodo_fim']);
+                }
+
 
                 $medico = new Medico();
                 $medico->setId(intval($_POST['medico_id']));
@@ -186,26 +200,19 @@ require_once ('./internal/dao/MedicoDAO.class.php');
                                 </div>
                             </div>
 
-
                             <div class="linha2">
                                 <div class="coluna col4">
                                     <ul class="main inline sem-marcador">
-                                        <h1 class="info">Data e horário da consulta/procedimento</h1>
+                                        <h1 class="info">Data da consulta/procedimento</h1>
                                     </ul>
                                 </div>
 
                                 <div class="coluna col5">
                                     <ul class="input-text">
-                                        <input type="text" name="data" id="dataconsulta" placeholder="DD/MM/YYYY" />
-                                    </ul>
-                                    <ul class="input-text">
-                                        <input type="text" name="hora_inicio" id="hora_inicio" placeholder="HH:MM"/>
-                                        a 
-                                        <input type="text" name="hora_fim" id="hora_fim" placeholder="HH:MM" />
+                                        <input type="text" name="datahora" id="datahora" placeholder="DD/MM/YYYY" />
                                     </ul>
                                 </div>
                             </div>
-
 
                             <div class="linha2">
                                 <div class="coluna col4">
