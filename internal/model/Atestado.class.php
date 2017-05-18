@@ -10,19 +10,19 @@ class Atestado {
 
     /**
      *
-     * @var DateTime
+     * @var string
      */
     private $datahora;
 
     /**
      *
-     * @var DateTime
+     * @var string
      */
     private $periodoInicio = null;
 
     /**
      *
-     * @var DateTime
+     * @var string
      */
     private $periodoFim = null;
 
@@ -112,15 +112,15 @@ class Atestado {
         $this->id = $id;
     }
 
-    function setDatahora(DateTime $datahora) {
+    function setDatahora($datahora) {
         $this->datahora = $datahora;
     }
 
-    function setPeriodoInicio(DateTime $periodoInicio) {
+    function setPeriodoInicio($periodoInicio) {
         $this->periodoInicio = $periodoInicio;
     }
 
-    function setPeriodoFim(DateTime $periodoFim) {
+    function setPeriodoFim($periodoFim) {
         $this->periodoFim = $periodoFim;
     }
 

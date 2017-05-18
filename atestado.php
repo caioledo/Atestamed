@@ -8,6 +8,7 @@ require_once ('./internal/model/Paciente.class.php');
 require_once ('./internal/model/Usuario.class.php');
 
 require_once ('./internal/dao/AtestadoDAO.class.php');
+require_once ('./internal/dao/MedicoDAO.class.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -24,17 +25,25 @@ require_once ('./internal/dao/AtestadoDAO.class.php');
         include("includes/header.inc.php");
 
         if ($_SERVER['REQUEST_METHOD'] == "POST" && !empty($_POST)) {
-            if (true) {
+            if (isset($_POST['medico_id']) && isset($_POST['pac_nome']) && isset($_POST['pac_id'])) {
                 $atestado = new Atestado();
 
                 $atestado->setPacNome($_POST['pac_nome']);
                 $atestado->setPacId($_POST['pac_id']);
-                $atestado->setPacEndereco($_POST['pac_endereco']);
-                $atestado->setPacEmail($_POST['pac_email']);
-                $atestado->setPacTelefone($_POST['pac_telefone']);
+
+                if (isset($_POST['pac_endereco'])) {
+                    $atestado->setPacEndereco($_POST['pac_endereco']);
+                }
+                if (isset($_POST['pac_email'])) {
+                    $atestado->setPacEmail($_POST['pac_email']);
+                }
+
+                if (isset($_POST['pac_telefone'])) {
+                    $atestado->setPacTelefone($_POST['pac_telefone']);
+                }
 
                 $medico = new Medico();
-                $medico->setId(1);
+                $medico->setId(intval($_POST['medico_id']));
 
                 $atestado->setMedico($medico);
 
@@ -74,8 +83,17 @@ require_once ('./internal/dao/AtestadoDAO.class.php');
                                 <div class="coluna col5">
                                     <ul class="input-text">
                                         <select name="medico_id">
-                                            <option value="0" disabled="disabled">Selecione</option>
-                                            <option value="1" selected="selected">Medico de teste</option>
+                                            <option value="0" disabled="disabled" selected="selected">Selecione</option>
+                                            <?php
+                                            $medDao = new MedicoDAO();
+                                            $medicos = $medDao->getMedicos();
+
+                                            foreach ($medicos as $med) {
+                                                ?>
+                                                <option value="<?= $med->getId() ?>"><?= $med->getNome() ?></option>
+                                                <?php
+                                            }
+                                            ?>
                                         </select>
                                     </ul>
                                 </div>
@@ -232,14 +250,8 @@ require_once ('./internal/dao/AtestadoDAO.class.php');
             </form>
         </div>
 
-        <div class="footer">
-            <div class="linha2">
-                <footer>
-                    <div class="coluna col12">
-                        <span>&copy; 2017 - Cesupa</span>
-                    </div>
-                </footer>
-            </div>
-        </div>
+        <?php
+        include("./includes/footer.inc.php");
+        ?>
     </body>
 </html>

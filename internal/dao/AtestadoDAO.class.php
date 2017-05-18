@@ -21,4 +21,45 @@ class AtestadoDAO {
         return true;
     }
 
+    public function getAtestadoCodAut($codAutenticacao) {
+        $return = null;
+        try {
+            $db = new Database();
+            $conn = $db->getConnection();
+
+            $sql = "SELECT * FROM atestado WHERE cod_autenticacao = '" . $codAutenticacao . "'";
+
+            $result = $conn->query($sql);
+
+            if ($result && $row = mysqli_fetch_assoc($result)) {
+                $atest = new Atestado();
+
+                $atest->setPacNome($row['pac_nome']);
+                $atest->setPacId($row['pac_id']);
+                $atest->setPacEmail($row['pac_email']);
+                $atest->setPacEndereco($row['pac_endereco']);
+                $atest->setPacTelefone($row['pac_telefone']);
+                $atest->setCid($row['cid']);
+
+                $medico = new Medico();
+                $medico->setId($row['medico_id']);
+                $atest->setMedico($medico);
+
+                $atest->setId($row['id']);
+                $atest->setCodAutenticacao($row['cod_autenticacao']);
+
+                $atest->setDatahora($row['datahora']);
+
+                $return = $atest;
+            }
+
+            $conn->close();
+
+            return $return;
+        } catch (Exception $ex) {
+            return null;
+        }
+        return null;
+    }
+
 }
