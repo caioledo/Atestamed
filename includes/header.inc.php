@@ -34,6 +34,10 @@
                             <li>
                                 <a href="validar.php">Validar Atestado</a>
                             </li>
+
+                            <li>
+                                <a href="logout.php">Sair</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>

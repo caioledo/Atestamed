@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['logado']) | boolval($_SESSION['logado']) != true) {
+    header("Location: login.php");
+}
+
 require_once ('./internal/classes/Database.class.php');
 require_once ('./internal/classes/TipoUsuario.php');
 
@@ -27,8 +32,6 @@ require_once ('./internal/dao/MedicoDAO.class.php');
         <div class="linha3">
             <section>
                 <div class="tab">
-
-
                     <div class="linha3">
                         <?php
                         if (isset($_GET['auth']) && !empty($_GET['auth'])) {
@@ -36,76 +39,94 @@ require_once ('./internal/dao/MedicoDAO.class.php');
                             $atestado = $dao->getAtestadoCodAut($_GET['auth']);
                             if ($atestado && $atestado->getCodAutenticacao()) {
                                 ?>
-                                <center>
-                                    <h2>ATESTADO</h2>
-                                </center>
-                                <div class="linha2">
-                                    <div class="coluna col4">
-                                        <ul class="main inline sem-marcador">
-                                            <h1 class="info">Número:</h1>
-                                        </ul>
+                                <div style="background-color: #fff; border: #000 1px solid; width: auto;">
+                                    <center>
+                                        <h2>ATESTADO</h2>
+                                    </center>
+                                    <div class="linha2">
+                                        <div class="coluna col4">
+                                            <ul class="main inline sem-marcador">
+                                                <h1 class="info">Número:</h1>
+                                            </ul>
+                                        </div>
+
+                                        <div class="coluna col5">
+                                            <ul class="input-text">
+                                                <?= str_pad($atestado->getId(), 4, '0', STR_PAD_LEFT) ?>
+                                            </ul>
+                                        </div>
                                     </div>
 
-                                    <div class="coluna col5">
-                                        <ul class="input-text">
-                                            <?= str_pad($atestado->getId(), 4, '0', STR_PAD_LEFT) ?>
-                                        </ul>
+                                    <div class="linha2">
+                                        <p style="margin: 0 10px">
+                                            Atesto que <?= $atestado->getPacNome() ?>
+                                            <?php
+                                            if ($atestado->getPacId()) {
+                                                echo ", portador do documento de identidade número " . $atestado->getPacId() . " , ";
+                                            }
+                                            ?>
+                                            esteve sob meus cuidados médicos em <?= $atestado->getDatahora() ?>
+                                            <?php
+                                            if (!empty($atestado->getPeriodoInicio()) && !empty($atestado->getPeriodoFim())) {
+                                                echo ", devendo ausentar-se de suas atividades no período de " . $atestado->getPeriodoInicio() . " a " . $atestado->getPeriodoFim() . ".";
+                                            } else {
+                                                echo ".";
+                                            }
+                                            ?>
+                                            <br/>
+                                            <?php
+                                            if ($atestado->getCid()) {
+                                                echo "CID: " . $atestado->getCid();
+                                            }
+                                            ?>
+                                            <br/>
+                                            Emissão: <?= date('d/m/Y H:i:s') ?>
+                                        </p>
                                     </div>
-                                </div>
 
-                                <div class="linha2">
-                                    <p>
-                                        Atesto que <?= $atestado->getPacNome() ?>
-                                        <?php
-                                        if ($atestado->getPacId()) {
-                                            echo ", portador do documento de identidade número " . $atestado->getPacId() . " , ";
-                                        }
-                                        ?>
-                                        esteve sob meus cuidados médicos em <?= $atestado->getDatahora() ?>
-                                        <?php
-                                        if (!empty($atestado->getPeriodoInicio()) && !empty($atestado->getPeriodoFim())) {
-                                            echo ", devendo ausentar-se de suas atividades no período de " . $atestado->getPeriodoInicio() . " a " . $atestado->getPeriodoFim() . ".";
-                                        } else {
-                                            echo ".";
-                                        }
-                                        ?>
+                                    <div class="linha2">
+                                        <div class="coluna col4">
+                                            <ul class="main inline sem-marcador">
+                                                <h1 class="info">Código de Autenticação:</h1>
+                                            </ul>
+                                        </div>
+
+                                        <div class="coluna col5">
+                                            <ul class="input-text">
+                                                <?= $atestado->getCodAutenticacao() ?>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <br/>
+                                    <?php
+                                    $url = "http://localhost/atestamed/validar.php?auth=" . $atestado->getCodAutenticacao();
+                                    ?>
+                                    <img src="http://chart.apis.google.com/chart?cht=qr&chs=300x250&chl=<?= urlencode($url) ?>" alt="QRCode" title="QRCode" style="height: 100px; float: right;"/>
+
+                                    <br/>
+                                    <br/>
+                                    <br/>
+
+                                    <?php
+                                    $medDao = new MedicoDAO();
+                                    $medico = $medDao->getMedico($_SESSION['medico_id']);
+                                    ?>
+
+                                    <center>
                                         <br/>
-                                        <?php
-                                        if ($atestado->getCid()) {
-                                            echo "CID: " . $atestado->getCid();
-                                        }
-                                        ?>
+                                        <?= $medico->getNome() ?>
                                         <br/>
-                                        Emissão: <?= date('d/m/Y H:i:s') ?>
-                                    </p>
+                                        <?= "CRM-" . $medico->getCrmUf() . " " . $medico->getCrmNum() ?>
+                                    </center>
                                 </div>
-
-                                <div class="linha2">
-                                    <div class="coluna col4">
-                                        <ul class="main inline sem-marcador">
-                                            <h1 class="info">Código de Autenticação:</h1>
-                                        </ul>
-                                    </div>
-
-                                    <div class="coluna col5">
-                                        <ul class="input-text">
-                                            <?= $atestado->getCodAutenticacao() ?>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                                <br/>
-                                <?php
-                                $url = "http://localhost/atestamed/validar.php?auth=" . $atestado->getCodAutenticacao();
-                                ?>
-                                <img src="http://chart.apis.google.com/chart?cht=qr&chs=300x250&chl=<?= urlencode($url) ?>" alt="QRCode" title="QRCode" style="height: 100px; float: right;"/>
                                 <?php
                             } else {
                                 echo "Atestado não localizado";
                             }
                         } else {
                             ?>
-                            <form action="validar.php" method="GET">
+                            <form action="emissao.php" method="GET">
                                 <div class="linha2">
                                     <div class="coluna col4">
                                         <ul class="main inline sem-marcador">
@@ -122,7 +143,7 @@ require_once ('./internal/dao/MedicoDAO.class.php');
                                 <div class="linha2">
                                     <div class="coluna col6">
                                         <ul class="button-margin-right">
-                                            <input type="submit" class="botao" value="Validar" />
+                                            <input type="submit" class="botao" value="Emitir Atestado" />
                                         </ul>
                                     </div>
                                 </div>

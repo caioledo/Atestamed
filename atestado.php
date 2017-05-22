@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['logado']) | boolval($_SESSION['logado']) != true) {
+    header("Location: login.php");
+}
+
+
 require_once ('./internal/classes/Database.class.php');
 require_once ('./internal/classes/TipoUsuario.php');
 
@@ -18,6 +24,9 @@ require_once ('./internal/dao/MedicoDAO.class.php');
         <link rel="stylesheet" href="css/normalize.css" />
         <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css' />
         <link rel="stylesheet" href="css/estilo.css" />
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
     </head>
 
     <body>
@@ -66,12 +75,15 @@ require_once ('./internal/dao/MedicoDAO.class.php');
                 $dao = new AtestadoDAO();
                 if ($dao->insert($atestado)) {
                     ?>
-                    <div>
-                        <strong>Atestado gerado com sucesso</strong>
-                        <br/>
-                        Código de autenticação: <?= $atestado->getCodAutenticacao() ?>
-                        <br/>
-                        <a href="emissao.php?auth=<?= $atestado->getCodAutenticacao() ?>">Imprimir Atestado</a>
+                    <div class="linha3">
+                        <div class="info2">
+                            <h4><strong>Atestado gerado com sucesso</strong></h4>
+                            <p>
+                                Código de autenticação: <?= $atestado->getCodAutenticacao() ?>
+                                <br/>
+                                <a style="color:blue" href="emissao.php?auth=<?= $atestado->getCodAutenticacao() ?>">Imprimir Atestado</a>
+                            </p>
+                        </div>
                     </div>
                     <?php
                 } else {
@@ -96,19 +108,12 @@ require_once ('./internal/dao/MedicoDAO.class.php');
 
                                 <div class="coluna col5">
                                     <ul class="input-text">
-                                        <select name="medico_id">
-                                            <option value="0" disabled="disabled" selected="selected">Selecione</option>
-                                            <?php
-                                            $medDao = new MedicoDAO();
-                                            $medicos = $medDao->getMedicos();
-
-                                            foreach ($medicos as $med) {
-                                                ?>
-                                                <option value="<?= $med->getId() ?>"><?= $med->getNome() ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
+                                        <input type="hidden"  name="medico_id" value="<?= $_SESSION['medico_id'] ?>"/>
+                                        <?php
+                                        $medDao = new MedicoDAO();
+                                        $medico = $medDao->getMedico($_SESSION['medico_id']);
+                                        echo $medico->getNome() . " (CRM-" . $medico->getCrmUf() . " " . $medico->getCrmNum() . ")";
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
@@ -209,7 +214,7 @@ require_once ('./internal/dao/MedicoDAO.class.php');
 
                                 <div class="coluna col5">
                                     <ul class="input-text">
-                                        <input type="text" name="datahora" id="datahora" placeholder="DD/MM/YYYY" />
+                                        <input type="text" name="datahora" id="datahora" class="date" />
                                     </ul>
                                 </div>
                             </div>
@@ -223,9 +228,9 @@ require_once ('./internal/dao/MedicoDAO.class.php');
 
                                 <div class="coluna col5">
                                     <ul class="input-text">
-                                        <input type="text" name="periodo_inicio" id="periodo_inicio" placeholder="DD/MM/YYYY" />
+                                        <input type="text" name="periodo_inicio" id="periodo_inicio" class="date" />
                                         a 
-                                        <input type="text" name="periodo_fim" id="periodo_fim" placeholder="DD/MM/YYYY" />
+                                        <input type="text" name="periodo_fim" id="periodo_fim" class="date"/>
                                     </ul>
                                 </div>
                             </div>
@@ -260,5 +265,11 @@ require_once ('./internal/dao/MedicoDAO.class.php');
         <?php
         include("./includes/footer.inc.php");
         ?>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.date').mask('00/00/0000')
+            });
+        </script>
     </body>
 </html>
