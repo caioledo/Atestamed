@@ -12,6 +12,9 @@ class AtestadoDAO {
 
             $conn->query($sql);
             $conn->close();
+            if ($conn->connect_error || $conn->error) {
+                return false;
+            }
         } catch (Exception $ex) {
             return false;
         }

@@ -36,6 +36,7 @@ class MedicoDAO {
         return null;
     }
 
+<<<<<<< HEAD:project/internal/dao/MedicoDAO.class.php
     public function getMedico($id) {
         $med = null;
         try {
@@ -86,4 +87,6 @@ class MedicoDAO {
         return false;
     }
 
+=======
+>>>>>>> parent of a733503... commit:internal/dao/MedicoDAO.class.php
 }
