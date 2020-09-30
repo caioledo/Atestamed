@@ -66,4 +66,24 @@ class MedicoDAO {
         return null;
     }
 
+    public function cadastrarMedicoUsuario(Medico $medico, Usuario $usuario) {
+
+        try {
+            $db = new Database();
+            $conn = $db->getConnection();
+
+            $sql = "INSERT INTO medico (nome, crm_uf, crm_num, especialidade) VALUES ('" . $medico->getNome() . "', '" . $medico->getCrmUf() . "', " . intval($medico->getCrmNum()) . ", '" . $medico->getEspecialidade() . "')";
+            $conn->query($sql);
+
+            $sql = "INSERT INTO usuario (nome, login, senha, tipo, medico_id) VALUES ('" . $usuario->getNome() . "', '" . $usuario->getLogin() . "', '" . $usuario->getSenha() . "', " . TipoUsuario::MEDICO . ", (SELECT id FROM medico WHERE crm_uf='" . $medico->getCrmUf() . "' AND crm_num=" . $medico->getCrmNum() . "))";
+            $conn->query($sql);
+
+            $conn->close();
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+        return false;
+    }
+
 }

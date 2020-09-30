@@ -48,17 +48,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <link rel="stylesheet" href="css/estilo.css" />
     </head>
     <body>
-        <div class="header">
-            <header>
-                <div class="linha1">
-                    <div class="coluna col4">
-                        <h1 class="logo">AtestaMed</h1>
-                        <h1 class="down-logo">Sistema de Emissão de Atestados Médicos</h1>
-                    </div>
-                </div>
-            </header>
-        </div>
+    
+        <header>
+               <div class="logo-background">
+                <br>
+                <h1 class="logo">AtestaMed</h1>
+                <h1 class="down-logo">Sistema de Emissão de Documentos Médicos</h1><br>
+            </div>
 
+            <fieldset>
+            <ul class="menu inline">
+            <li class="cadastro">
+                <a href="cadastro.php">Cadastrar</a>
+            </li>
+
+            <li class="validar">
+                <a href="validar.php">Validar Atestado</a>
+            </li>
+        </ul>
+    </fieldset>
+        </header>
         <br/>
 
         <?php
@@ -73,18 +82,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
         <fieldset>
-            <legend>Acesso ao Sistema</legend>
-            <form action="login.php" method="POST">
+            <ul class="center">
+                <form action="login.php" method="POST">
+                    <input class="campo" name="login" type="text" placeholder="Login" required><br>
 
-                <label for="user_login">Login:</label><br>
-                <input class="campo" name="login" type="text" required><br>
+                    <input class="campo" name="senha" type="password" placeholder="Senha" required><br>
 
-                <label for="user_senha">Senha:</label><br>
-                <input class="campo" name="senha" type="password" required><br>
-
-                <br>
-                <input type="submit" value="Enviar">
-            </form>
+                    <br>
+                    <input class="botao" type="submit" value="Enviar">
+                </form>
+            </ul>
         </fieldset>
 
 

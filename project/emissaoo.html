@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <title>AtestaMed</title>
+        <link rel="stylesheet" href="css/normalize.css" />
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css' />
+        <link rel="stylesheet" href="css/estilo.css" />
+    </head>
+
+    <body>
+        <header>
+            <div class="logo-background">
+                <br>
+                <h1 class="logo">ATESTAMED</h1>
+                <h1 class="down-logo">Sistema de Emissão de Documentos Médicos</h1><br>
+            </div>
+
+            <fieldset>
+                <ul class="menu inline">
+                    <li class="home">
+                        <a href="index.html">HOME</a>
+                    </li>
+
+                    <li class="cadastro">
+                        <a href="cadastro_espec.html">CADASTRO</a>
+                    </li>
+
+                    <li class="validador">
+                        <a href="validador.html">VALIDADOR</a>
+                    </li>
+                </ul>
+            </fieldset>
+        </header>
+
+        <section>
+            <ul class="center">
+                <div style="background-color: #fff; border: #000 1px solid; width: auto;">
+                    <form action="emissao.php" method="GET">
+                        <br>
+                        <h1 class="title">Código de autenticação</h1>
+
+                        <input class="campo" type="text" name="auth" id="auth" /><br>
+
+                        <br>
+                        <input type="submit" class="botao" value="Emitir Atestado" />
+                    </form>
+                </div>
+            </ul>
+        </section>
+    </body>
+</html>

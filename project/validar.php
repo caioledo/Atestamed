@@ -25,6 +25,9 @@ require_once ('./internal/dao/AtestadoDAO.class.php');
         ?>
         <div class="linha3">
             <section>
+                <ul class="center">
+                
+                
                 <div class="tab">
 
 
@@ -47,26 +50,13 @@ require_once ('./internal/dao/AtestadoDAO.class.php');
                         } else {
                             ?>
                             <form action="validar.php" method="GET">
-                                <div class="linha2">
-                                    <div class="coluna col4">
-                                        <ul class="main inline sem-marcador">
-                                            <h1 class="info">Código de autenticação:</h1>
-                                        </ul>
-                                    </div>
+                            
+                                <h1 class="title">Código de autenticação</h1>
 
-                                    <div class="coluna col5">
-                                        <ul class="input-text">
-                                            <input type="text" name="auth" id="auth" />
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="linha2">
-                                    <div class="coluna col6">
-                                        <ul class="button-margin-right">
-                                            <input type="submit" class="botao" value="Validar" />
-                                        </ul>
-                                    </div>
-                                </div>
+                                <input class="campoV" type="text" name="auth" id="auth" /><br>
+
+                                <br>
+                                <input type="submit" class="botao" value="Validar" />
                             </form>
                             <?php
                         }
@@ -75,8 +65,9 @@ require_once ('./internal/dao/AtestadoDAO.class.php');
 
                 </div>
             </section>
+            </ul>
         </div>
-
+        <br><br><br>
         <?php
         include("./includes/footer.inc.php");
         ?>
