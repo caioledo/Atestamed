@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <title>AtestaMed</title>
+        <link rel="stylesheet" href="css/normalize.css" />
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,500,300,100' rel='stylesheet' type='text/css' />
+        <link rel="stylesheet" href="css/estilo.css" />
+    </head>
+    <body>
+        <div class="header">
+            <header>
+                <div class="linha1">
+                    <div class="coluna col4">
+                        <h1 class="logo">AtestaMed</h1>
+                        <h1 class="down-logo">Sistema de Emissão de Atestados Médicos</h1>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <br/>
+
+
+        <fieldset>
+            <legend>Acesso ao Sistema</legend>
+            <form action="login.php" method="POST">
+
+                <label for="user_login">Login:</label><br>
+                <input class="campo" name="login" type="text" required><br>
+
+                <label for="user_senha">Senha:</label><br>
+                <input class="campo" name="senha" type="password" required><br>
+
+                <br>
+                <input type="submit" value="Enviar">
+            </form>
+        </fieldset>
+
+
+    </body>
+</html>
